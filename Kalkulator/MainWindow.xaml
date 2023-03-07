@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kalkulator"
         mc:Ignorable="d"
-        Title="Kalkulator" Height="450" Width="800">
+        Title="Kalkulator" Height="232" Width="193">
     <Grid>
         <Button x:Name="OK_Button" Content="7" HorizontalAlignment="Left" Margin="26,44,0,0" VerticalAlignment="Top" Height="27" Width="22" Click="btnnumber_Click"/>
         <TextBox x:Name="ekran" HorizontalAlignment="Left" Margin="26,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" RenderTransformOrigin="0.5,0.5" TextAlignment="Right"/>

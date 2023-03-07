@@ -45,16 +45,40 @@ namespace Kalkulator
                     });
                     break;
                 case "-":
-                    resetEvent.Reset();
-                    resetEvent.WaitOne(); 
+                    Task.Run(() =>
+                    {
+                        resetEvent.Reset();
+                        resetEvent.WaitOne();
+                        Dispatcher.Invoke(() =>
+                        {
+                            hideen = savedn - hideen;
+
+                        });
+                    });
                     break;
                 case "*":
-                    resetEvent.Reset();
-                    resetEvent.WaitOne(); 
+                    Task.Run(() =>
+                    {
+                        resetEvent.Reset();
+                        resetEvent.WaitOne();
+                        Dispatcher.Invoke(() =>
+                        {
+                            hideen *= savedn;
+
+                        });
+                    });
                     break;
                 case "/":
-                    resetEvent.Reset();
-                    resetEvent.WaitOne(); 
+                    Task.Run(() =>
+                    {
+                        resetEvent.Reset();
+                        resetEvent.WaitOne();
+                        Dispatcher.Invoke(() =>
+                        {
+                            hideen = savedn / hideen;
+
+                        });
+                    });
                     break;
             }
         }
