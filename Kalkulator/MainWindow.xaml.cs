@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -88,7 +88,14 @@ namespace Kalkulator
         {
             ekran.Text = "";
             shown += ((Button)sender).Content.ToString();
-            hideen += double.Parse(((Button)sender).Content.ToString());
+            if(savedn != 0)
+            {
+                hideen = double.Parse(((Button)sender).Content.ToString());
+            }
+            else
+            {
+                hideen += double.Parse(((Button)sender).Content.ToString());
+            }
             ekran.Text += shown;
             resetEvent.Set();
         }
