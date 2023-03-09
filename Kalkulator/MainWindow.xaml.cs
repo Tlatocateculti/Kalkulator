@@ -22,6 +22,7 @@ namespace Kalkulator
         private ManualResetEvent resetEvent = new ManualResetEvent(false);
         public string shown;
         public double hideen;
+        public string nso;
         public double savedn;
         private void btnnumber_Clickend(object sender, RoutedEventArgs e)
         {
@@ -29,6 +30,7 @@ namespace Kalkulator
             shown += " " + ((Button)sender).Content.ToString() + " ";
             savedn = hideen;
             hideen = 0;
+            nso = "";
             ekran.Text = shown;
             switch (((Button)sender).Content.ToString())
             {
@@ -40,6 +42,9 @@ namespace Kalkulator
                         Dispatcher.Invoke(() =>
                         {
                             hideen += savedn;
+                            ekran_Copy.Text = ekran.Text;
+                            ekran.Text = hideen.ToString();
+                            shown = hideen.ToString();
                             
                         });
                     });
@@ -52,7 +57,10 @@ namespace Kalkulator
                         Dispatcher.Invoke(() =>
                         {
                             hideen = savedn - hideen;
-
+                            ekran_Copy.Text = ekran.Text;
+                            ekran.Text = hideen.ToString();
+                            shown = hideen.ToString();
+                            nso = hideen.ToString();
                         });
                     });
                     break;
@@ -64,7 +72,9 @@ namespace Kalkulator
                         Dispatcher.Invoke(() =>
                         {
                             hideen *= savedn;
-
+                            ekran_Copy.Text = ekran.Text;
+                            ekran.Text = hideen.ToString();
+                            shown = hideen.ToString();
                         });
                     });
                     break;
@@ -76,7 +86,9 @@ namespace Kalkulator
                         Dispatcher.Invoke(() =>
                         {
                             hideen = savedn / hideen;
-
+                            ekran_Copy.Text = ekran.Text;
+                            ekran.Text = hideen.ToString();
+                            shown = hideen.ToString();
                         });
                     });
                     break;
@@ -88,23 +100,14 @@ namespace Kalkulator
         {
             ekran.Text = "";
             shown += ((Button)sender).Content.ToString();
-            if(savedn != 0)
-            {
-                hideen = double.Parse(((Button)sender).Content.ToString());
-            }
-            else
-            {
-                hideen += double.Parse(((Button)sender).Content.ToString());
-            }
+            nso += ((Button)sender).Content.ToString();
+            hideen = double.Parse(nso);
             ekran.Text += shown;
-            resetEvent.Set();
         }
 
         private void btnnumber_Clickended(object sender, RoutedEventArgs e)
         {
-            ekran_Copy.Text = ekran.Text;
-            ekran.Text = hideen.ToString();
-            shown = hideen.ToString();
+            resetEvent.Set();
         }
     }
 }
