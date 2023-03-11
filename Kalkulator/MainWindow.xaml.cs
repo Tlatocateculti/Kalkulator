@@ -20,93 +20,95 @@ namespace Kalkulator
     public partial class MainWindow : Window
     {
         private ManualResetEvent resetEvent = new ManualResetEvent(false);
+        private Task currentTask;
         public string shown;
-        public double hideen;
+        public decimal hideen;
         public string nso;
-        public double savedn;
-        private void btnnumber_Clickend(object sender, RoutedEventArgs e)
+        public decimal savedn;
+        bool equal = false;
+        bool not = false;
+        string zapis = "";
+        public void calculate()
         {
-            ekran.Text = "";
-            shown += " " + ((Button)sender).Content.ToString() + " ";
-            savedn = hideen;
-            hideen = 0;
-            nso = "";
-            ekran.Text = shown;
-            switch (((Button)sender).Content.ToString())
+            if (equal)
             {
-                case "+":
-                    Task.Run(() =>
-                    {
-                        resetEvent.Reset();
-                        resetEvent.WaitOne();
-                        Dispatcher.Invoke(() =>
-                        {
-                            hideen += savedn;
-                            ekran_Copy.Text = ekran.Text;
-                            ekran.Text = hideen.ToString();
-                            shown = hideen.ToString();
-                            
-                        });
-                    });
-                    break;
-                case "-":
-                    Task.Run(() =>
-                    {
-                        resetEvent.Reset();
-                        resetEvent.WaitOne();
-                        Dispatcher.Invoke(() =>
-                        {
-                            hideen = savedn - hideen;
-                            ekran_Copy.Text = ekran.Text;
-                            ekran.Text = hideen.ToString();
-                            shown = hideen.ToString();
-                            nso = hideen.ToString();
-                        });
-                    });
-                    break;
-                case "*":
-                    Task.Run(() =>
-                    {
-                        resetEvent.Reset();
-                        resetEvent.WaitOne();
-                        Dispatcher.Invoke(() =>
-                        {
-                            hideen *= savedn;
-                            ekran_Copy.Text = ekran.Text;
-                            ekran.Text = hideen.ToString();
-                            shown = hideen.ToString();
-                        });
-                    });
-                    break;
-                case "/":
-                    Task.Run(() =>
-                    {
-                        resetEvent.Reset();
-                        resetEvent.WaitOne();
-                        Dispatcher.Invoke(() =>
-                        {
-                            hideen = savedn / hideen;
-                            ekran_Copy.Text = ekran.Text;
-                            ekran.Text = hideen.ToString();
-                            shown = hideen.ToString();
-                        });
-                    });
-                    break;
+                ekran_Copy.Text = ekran.Text;
+                ekran.Text = hideen.ToString();
+                shown = hideen.ToString();
+               
             }
+            nso = hideen.ToString();
+            currentTask = null;
         }
-
-
         private void btnnumber_Click(object sender, RoutedEventArgs e)
         {
             ekran.Text = "";
             shown += ((Button)sender).Content.ToString();
             nso += ((Button)sender).Content.ToString();
-            hideen = double.Parse(nso);
+            hideen = decimal.Parse(nso);
             ekran.Text += shown;
         }
 
+        private void clickonoded(object sender, MouseButtonEventArgs e)
+        {
+            ekran.Text = "";
+            shown += " " + ((Button)sender).Content.ToString() + " ";
+            if (savedn != 0 && hideen != 0)
+            {
+                switch (zapis)
+                {
+                    case "+":
+                        hideen += savedn;
+                        break;
+                    case "-":
+                        hideen = savedn - hideen;
+                        break;
+                    case "*":
+                        hideen *= savedn;
+                        break;
+                    case "/":
+                        hideen = savedn / hideen;
+                        break;
+                }
+            }
+            savedn = hideen;
+            hideen = 0;
+            nso = "";
+            ekran.Text = shown;
+            zapis = ((Button)sender).Content.ToString();
+            if (currentTask != null) return;
+            currentTask = Task.Run(() =>
+            {
+                resetEvent.Reset();
+                resetEvent.WaitOne();
+                Dispatcher.Invoke(() =>
+                {
+                    switch (zapis)
+                    {
+                        case "+":
+                            hideen += savedn;
+                            savedn = 0;
+                            break;
+                        case "-":
+                            hideen = savedn - hideen;
+                            savedn = 0;
+                            break;
+                        case "*":
+                            hideen *= savedn;
+                            savedn = 0;
+                            break;
+                        case "/":
+                            hideen = savedn / hideen;
+                            savedn = 0;
+                            break;
+                    }
+                    calculate();
+                });
+            });
+        }
         private void btnnumber_Clickended(object sender, RoutedEventArgs e)
         {
+            equal = true;
             resetEvent.Set();
         }
     }

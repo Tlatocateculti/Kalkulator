@@ -5,25 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kalkulator"
         mc:Ignorable="d"
-        Title="Kalkulator" Height="409" Width="470">
-    <Grid Margin="0">
-        <Button x:Name="OK_Button" Content="7" HorizontalAlignment="Left" Margin="33,73,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FFB14545"/>
-        <TextBox x:Name="ekran" HorizontalAlignment="Center" Margin="0,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" RenderTransformOrigin="0.5,0.5" TextAlignment="Right" Height="34" FontSize="16"/>
-        <Button x:Name="OK_Button_Copy" Content="8" HorizontalAlignment="Left" Margin="111,73,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FFB14545" />
-        <Button x:Name="OK_Button_Copy1" Content="9" HorizontalAlignment="Left" Margin="192,73,0,0" VerticalAlignment="Top" Height="58" Width="58" Click="btnnumber_Click" Background="#FFB14545" />
-        <Button x:Name="OK_Button_Copy2" Content="4" HorizontalAlignment="Left" Margin="33,141,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FFB14545" />
-        <Button x:Name="OK_Button_Copy3" Content="5" HorizontalAlignment="Left" Margin="111,141,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FFB14545" />
-        <Button x:Name="OK_Button_Copy4" Content="6" HorizontalAlignment="Left" Margin="192,141,0,0" VerticalAlignment="Top" Height="58" Width="58" Click="btnnumber_Click" Background="#FFB14545" />
-        <Button x:Name="OK_Button_Copy5" Content="1" HorizontalAlignment="Left" Margin="33,208,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FFB14545" />
-        <Button x:Name="OK_Button_Copy6" Content="2" HorizontalAlignment="Left" Margin="111,208,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FFB14545" />
-        <Button x:Name="OK_Button_Copy7" Content="3" HorizontalAlignment="Left" Margin="192,208,0,0" VerticalAlignment="Top" Height="58" Width="58" Click="btnnumber_Click" Background="#FFB14545" />
-        <Button x:Name="OK_Button_Copy8" Content="+" HorizontalAlignment="Left" Margin="270,276,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Clickend" Background="#FFE43F3F" />
-        <Button x:Name="OK_Button_Copy9" Content="-" HorizontalAlignment="Left" Margin="270,208,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Clickend" Background="#FFE43F3F" />
-        <Button x:Name="OK_Button_Copy10" Content="=" HorizontalAlignment="Left" Margin="192,276,0,0" VerticalAlignment="Top" Height="58" Width="58" Click="btnnumber_Clickended" Background="#FFE43F3F" />
-        <Button x:Name="OK_Button_Copy11" Content="0" HorizontalAlignment="Left" Margin="111,276,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FFB14545" />
-        <Button x:Name="OK_Button_Copy12" Content="/" HorizontalAlignment="Left" Margin="270,75,0,0" VerticalAlignment="Top" Height="56" Width="57" Click="btnnumber_Clickend" Background="#FFE43F3F" />
-        <Button x:Name="OK_Button_Copy13" Content="*" HorizontalAlignment="Left" Margin="270,141,0,0" VerticalAlignment="Top" Height="56" Width="57" Click="btnnumber_Clickend" Background="#FFE43F3F" />
-        <TextBox x:Name="ekran_Copy" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" RenderTransformOrigin="0.627,-0.588" TextAlignment="Right"  Height="18" FontSize="10"/>
+        Title="Kalkulator" Height="431" Width="415" Background="#FF066121" WindowStyle="ThreeDBorderWindow">
+    <Grid >
+        <Button x:Name="OK_Button" Content="7" HorizontalAlignment="Left" Margin="16,108,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FF0DDB4B" BorderBrush="Black" FontSize="36" Foreground="#FF066121"/>
+        <TextBox x:Name="ekran" Margin="13,47,13,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" TextAlignment="Right" Height="54" FontSize="40" Background="#FF00CA3F" BorderBrush="Black" Foreground="#FF066121" SelectionBrush="White"/>
+        <Button x:Name="OK_Button_Copy" Content="8" HorizontalAlignment="Left" Margin="94,108,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FF0DDB4B" BorderBrush="Black" FontSize="36" Foreground="#FF066121" />
+        <Button x:Name="OK_Button_Copy1" Content="9" HorizontalAlignment="Left" Margin="175,108,0,0" VerticalAlignment="Top" Height="58" Width="58" Click="btnnumber_Click" Background="#FF0DDB4B" BorderBrush="#FF0C0C0C" FontSize="36" Foreground="#FF066121" />
+        <Button x:Name="OK_Button_Copy2" Content="4" HorizontalAlignment="Left" Margin="16,176,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FF0DDB4B" BorderBrush="Black" FontSize="36" Foreground="#FF066121" />
+        <Button x:Name="OK_Button_Copy3" Content="5" HorizontalAlignment="Left" Margin="94,176,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FF0DDB4B" BorderBrush="Black" FontSize="36" Foreground="#FF066121" />
+        <Button x:Name="OK_Button_Copy4" Content="6" HorizontalAlignment="Left" Margin="175,176,0,0" VerticalAlignment="Top" Height="58" Width="58" Click="btnnumber_Click" Background="#FF0DDB4B" BorderBrush="#FF020202" FontSize="36" Foreground="#FF066121" />
+        <Button x:Name="OK_Button_Copy5" Content="1" HorizontalAlignment="Left" Margin="16,243,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FF0DDB4B" BorderBrush="Black" FontSize="36" Foreground="#FF066121" />
+        <Button x:Name="OK_Button_Copy6" Content="2" HorizontalAlignment="Left" Margin="94,243,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FF0DDB4B" BorderBrush="Black" Foreground="#FF066121" FontSize="36" />
+        <Button x:Name="OK_Button_Copy7" Content="3" HorizontalAlignment="Left" Margin="175,243,0,0" VerticalAlignment="Top" Height="58" Width="58" Click="btnnumber_Click" Background="#FF0DDB4B" FontSize="36" BorderBrush="Black" Foreground="#FF066121" />
+        <Button x:Name="OK_Button_Copy9" Content="-" HorizontalAlignment="Left" Margin="253,246,0,0" VerticalAlignment="Top" Height="58" Width="57" Background="#FF81D40D" PreviewMouseUp="clickonoded" BorderBrush="#FF51E17C" Foreground="#FF6F981C" FontSize="36" />
+        <Button x:Name="OK_Button_Copy10" Content="=" HorizontalAlignment="Left" Margin="252,315,0,0" VerticalAlignment="Top" Height="58" Width="58" Click="btnnumber_Clickended" Background="#FF81D40D" BorderBrush="#FF51E17C" Foreground="#FF066121" FontSize="36"  />
+        <Button x:Name="OK_Button_Copy11" Content="0" HorizontalAlignment="Left" Margin="16,315,0,0" VerticalAlignment="Top" Height="58" Width="57" Click="btnnumber_Click" Background="#FF0DDB4B" BorderBrush="Black" FontSize="36" Foreground="#FF066121" />
+        <Button x:Name="OK_Button_Copy12" Content="/" HorizontalAlignment="Left" Margin="253,110,0,0" VerticalAlignment="Top" Height="56" Width="57" Background="#FF81D40D" PreviewMouseUp="clickonoded" BorderBrush="#FF51E17C" Foreground="#FF6F981C" FontSize="24" />
+        <Button x:Name="OK_Button_Copy13" Content="*" HorizontalAlignment="Left" Margin="253,178,0,0" VerticalAlignment="Top" Height="56" Width="57" Background="#FF81D40D" PreviewMouseUp="clickonoded" BorderBrush="#FF51E17C" Foreground="#FF6F981C" FontSize="36" />
+        <TextBox x:Name="ekran_Copy"  TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.627,-0.588" TextAlignment="Right"  Height="28" FontSize="20" Background="#FF479A60" Foreground="#FFB5E17C" BorderBrush="Black" Margin="13,19,13,0"/>
+        <Button x:Name="OK_Button_Copy14" Content="-" HorizontalAlignment="Left" Margin="329,246,0,0" VerticalAlignment="Top" Height="58" Width="57" Background="#FF81D40D" PreviewMouseUp="clickonoded" BorderBrush="#FF51E17C" Foreground="#FF6F981C" FontSize="36" />
+        <Button x:Name="OK_Button_Copy15" Content="/" HorizontalAlignment="Left" Margin="329,110,0,0" VerticalAlignment="Top" Height="56" Width="57" Background="#FF81D40D" PreviewMouseUp="clickonoded" BorderBrush="#FF51E17C" Foreground="#FF6F981C" FontSize="36" />
+        <Button x:Name="OK_Button_Copy16" Content="*" HorizontalAlignment="Left" Margin="329,178,0,0" VerticalAlignment="Top" Height="56" Width="57" Background="#FF81D40D" PreviewMouseUp="clickonoded" BorderBrush="#FF51E17C" Foreground="#FF6F981C" FontSize="36" />
+        <Button x:Name="OK_Button_Copy17" Content="+" HorizontalAlignment="Left" Margin="329,315,0,0" VerticalAlignment="Top" Height="58" Width="57" Background="#FF81D40D" PreviewMouseUp="clickonoded" BorderBrush="#FF51E17C" Foreground="#FF6F981C" FontSize="36" />
 
     </Grid>
 </Window>
