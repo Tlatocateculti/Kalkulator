@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,73 +16,100 @@ using System.Windows.Shapes;
 
 namespace Kalkulator
 {
-    /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
-        double equal;
-        bool operandPressed;
-        string action;
-        List<string> operands;
-        public MainWindow()
+        private ManualResetEvent resetEvent = new ManualResetEvent(false);
+        private Task currentTask;
+        public string shown;
+        public decimal hideen;
+        public string nso;
+        public decimal savedn;
+        bool equal = false;
+        bool not = false;
+        string zapis = "";
+        public void calculate()
         {
-            InitializeComponent();
-            equal = .0;
-            operandPressed = false;
-            action = "";
-            operands = new List<string>();
-            string[] tmp = { "+", "-", "*", "/", "=" };
-            
-            operands.AddRange(tmp.ToList());
-
+            if (equal)
+            {
+                ekran_Copy.Text = ekran.Text;
+                ekran.Text = hideen.ToString();
+                shown = hideen.ToString();
+               
+            }
+            nso = hideen.ToString();
+            currentTask = null;
         }
-
         private void btnnumber_Click(object sender, RoutedEventArgs e)
         {
-            var data = ((Button)sender).Content.ToString();
-            if (operandPressed && !operands.Contains(data))
+            ekran.Text = "";
+            shown += ((Button)sender).Content.ToString();
+            nso += ((Button)sender).Content.ToString();
+            hideen = decimal.Parse(nso);
+            ekran.Text += shown;
+        }
+
+        private void clickonoded(object sender, MouseButtonEventArgs e)
+        {
+            ekran.Text = "";
+            shown += " " + ((Button)sender).Content.ToString() + " ";
+            if (savedn != 0 && hideen != 0)
             {
-                operandPressed = false;
-                ekran.Text = data;
-                return;
-            }
-            if (operands.Contains(data))
-            {
-                switch (action)
+                switch (zapis)
                 {
-                    case "+": equal += Convert.ToDouble(ekran.Text); break;
-                    case "-": equal -= Convert.ToDouble(ekran.Text); break;
-                    case "*": equal *= Convert.ToDouble(ekran.Text); break;
-                    case "/": equal /= Convert.ToDouble(ekran.Text); break;
-                    default: equal = Convert.ToDouble(ekran.Text); break;
+                    case "+":
+                        hideen += savedn;
+                        break;
+                    case "-":
+                        hideen = savedn - hideen;
+                        break;
+                    case "*":
+                        hideen *= savedn;
+                        break;
+                    case "/":
+                        hideen = savedn / hideen;
+                        break;
                 }
-                if (data != "=") action = data;
-
-                ekran.Text = equal.ToString();
-                operandPressed = true;
             }
-            else
+            savedn = hideen;
+            hideen = 0;
+            nso = "";
+            ekran.Text = shown;
+            zapis = ((Button)sender).Content.ToString();
+            if (currentTask != null) return;
+            currentTask = Task.Run(() =>
             {
-                ekran.Text += data.ToString();
-            }
+                resetEvent.Reset();
+                resetEvent.WaitOne();
+                Dispatcher.Invoke(() =>
+                {
+                    switch (zapis)
+                    {
+                        case "+":
+                            hideen += savedn;
+                            savedn = 0;
+                            break;
+                        case "-":
+                            hideen = savedn - hideen;
+                            savedn = 0;
+                            break;
+                        case "*":
+                            hideen *= savedn;
+                            savedn = 0;
+                            break;
+                        case "/":
+                            hideen = savedn / hideen;
+                            savedn = 0;
+                            break;
+                    }
+                    calculate();
+                });
+            });
         }
-
-        private void OK_Button_KeyUp(object sender, KeyEventArgs e)
+        private void btnnumber_Clickended(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.C)
-            {
-                ((Button)sender).Content = "WITAJ";
-            }
-            if (e.Key == Key.D)
-            {
-                ((Button)sender).Content = "ŻEGNAJ";
-            }
-        }
-
-        private void etykieta1_KeyDown(object sender, KeyEventArgs e)
-        {
-            //if (ekran.Text)
+            equal = true;
+            resetEvent.Set();
         }
     }
 }
