@@ -1,115 +1,68 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 namespace Kalkulator
 {
-
     public partial class MainWindow : Window
     {
-        private ManualResetEvent resetEvent = new ManualResetEvent(false);
-        private Task currentTask;
-        public string shown;
-        public decimal hideen;
-        public string nso;
-        public decimal savedn;
-        bool equal = false;
-        bool not = false;
-        string zapis = "";
-        public void calculate()
+        private string connectionString;
+        public MainWindow()
         {
-            if (equal)
+            InitializeComponent();
+            connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            LoadZgloszenia();
+        }
+        private void btnDodajZgloszenie_Click(object sender, RoutedEventArgs e)
+        {
+            string nazwaUzytkownika = tbNazwaUzytkownika.Text;
+            string opisAwarii = tbOpisAwarii.Text;
+            if (string.IsNullOrEmpty(nazwaUzytkownika) || string.IsNullOrEmpty(opisAwarii))
             {
-                ekran_Copy.Text = ekran.Text;
-                ekran.Text = hideen.ToString();
-                shown = hideen.ToString();
+                MessageBox.Show("Nazwa użytkownika i opis awarii nie mogą być puste.");
+                return;
+            }
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("INSERT INTO zgloszenia (nazwa_uzytkownika, opis) VALUES(@nazwaUzytkownika, @opisAwarii)", connection);
                
+                command.Parameters.AddWithValue("@nazwaUzytkownika", nazwaUzytkownika);
+                command.Parameters.AddWithValue("@opisAwarii", opisAwarii);
+                command.ExecuteNonQuery();
             }
-            nso = hideen.ToString();
-            currentTask = null;
+            LoadZgloszenia();
         }
-        private void btnnumber_Click(object sender, RoutedEventArgs e)
+        private void btnUsunZgloszenie_Click(object sender, RoutedEventArgs e)
         {
-            ekran.Text = "";
-            shown += ((Button)sender).Content.ToString();
-            nso += ((Button)sender).Content.ToString();
-            hideen = decimal.Parse(nso);
-            ekran.Text += shown;
-        }
-
-        private void clickonoded(object sender, MouseButtonEventArgs e)
-        {
-            ekran.Text = "";
-            shown += " " + ((Button)sender).Content.ToString() + " ";
-            if (savedn != 0 && hideen != 0)
+            DataRowView row = (DataRowView)((Button)e.Source).DataContext;
+            int id = (int)row["Id"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                switch (zapis)
-                {
-                    case "+":
-                        hideen += savedn;
-                        break;
-                    case "-":
-                        hideen = savedn - hideen;
-                        break;
-                    case "*":
-                        hideen *= savedn;
-                        break;
-                    case "/":
-                        hideen = savedn / hideen;
-                        break;
-                }
+                connection.Open();
+                SqlCommand command = new SqlCommand("DELETE FROM zgloszenia WHERE id = @id", connection);
+               
+                command.Parameters.AddWithValue("@id", id);
+                command.ExecuteNonQuery();
             }
-            savedn = hideen;
-            hideen = 0;
-            nso = "";
-            ekran.Text = shown;
-            zapis = ((Button)sender).Content.ToString();
-            if (currentTask != null) return;
-            currentTask = Task.Run(() =>
-            {
-                resetEvent.Reset();
-                resetEvent.WaitOne();
-                Dispatcher.Invoke(() =>
-                {
-                    switch (zapis)
-                    {
-                        case "+":
-                            hideen += savedn;
-                            savedn = 0;
-                            break;
-                        case "-":
-                            hideen = savedn - hideen;
-                            savedn = 0;
-                            break;
-                        case "*":
-                            hideen *= savedn;
-                            savedn = 0;
-                            break;
-                        case "/":
-                            hideen = savedn / hideen;
-                            savedn = 0;
-                            break;
-                    }
-                    calculate();
-                });
-            });
+            LoadZgloszenia();
         }
-        private void btnnumber_Clickended(object sender, RoutedEventArgs e)
+        private void LoadZgloszenia()
         {
-            equal = true;
-            resetEvent.Set();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM zgloszenia",connection);
+                DataTable zgloszeniaTable = new DataTable();
+                adapter.Fill(zgloszeniaTable);
+                dgZgloszenia.ItemsSource = zgloszeniaTable.DefaultView;
+            }
         }
     }
 }
